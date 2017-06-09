@@ -22,3 +22,9 @@
 hs_err_pid*
 
 libs/
+
+Superbible/\.classpath
+
+Superbible/\.project
+
+Superbible/\.settings/org\.eclipse\.jdt\.core\.prefs

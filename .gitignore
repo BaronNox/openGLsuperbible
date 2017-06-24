@@ -32,3 +32,5 @@ Superbible/\.classpath
 Superbible/\.project
 
 Superbible/\.settings/org\.eclipse\.jdt\.core\.prefs
+
+Superbible/resources/glslangValidator\.exe

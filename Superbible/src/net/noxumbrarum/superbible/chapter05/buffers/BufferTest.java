@@ -71,6 +71,7 @@ public class BufferTest {
 
 	private void createShaders() {
 		//Create shaders
+		shaderProgram = GL20.glCreateProgram();
 		vertexShader = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
 		fragmentShader = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
 		

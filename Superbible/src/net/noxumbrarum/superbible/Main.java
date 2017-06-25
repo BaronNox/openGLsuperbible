@@ -1,4 +1,4 @@
-package net.noxumbrarum.net.superbible.feedvertexshaderwithbuffer;
+package net.noxumbrarum.superbible;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;

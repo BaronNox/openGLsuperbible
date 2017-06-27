@@ -1,4 +1,4 @@
-package net.noxumbrarum.net.superbible.feedvertexshaderwithbuffer;
+package net.noxumbrarum.superbible;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
@@ -43,6 +43,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL31;
+import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL43;
 import org.lwjgl.opengl.GL44;
 import org.lwjgl.opengl.GL45;
@@ -50,6 +52,8 @@ import org.lwjgl.opengl.GLUtil;
 import org.lwjgl.system.Callback;
 import org.lwjgl.system.MemoryStack;
 
+import net.noxumbrarum.superbible.chapter05.buffers.BufferTest;
+import net.noxumbrarum.superbible.chapter05.uniforms.UBO140Test;
 import net.noxumbrarum.util.Utils;
 import net.noxumbrarum.util.VectorSize;
 import net.noxumbrarum.util.bindings.AttribIndex;
@@ -137,52 +141,8 @@ public class Main {
 			
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			
-			
-			float[] vertices = 
-				{ 
-					0, 1.0f, 0.5f, 1,
-					-1f, -1f, 0.5f, 1,
-					1f, -1f, 0.5f, 1
-				};
-			
-			float[] color = 
-				{
-					0, 1f, 0f, 1f
-				};
-			int vao;
-			int vertexBuffer;
-			
-			int shaderProgram = GL20.glCreateProgram();
-			int vertexShader = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
-			int fragmentShader = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-			
-			
-			GL20.glShaderSource(vertexShader, Utils.loadFileAsString("shader.vert"));
-			GL20.glCompileShader(vertexShader);
-			
-			GL20.glShaderSource(fragmentShader, Utils.loadFileAsString("shader.frag"));
-			GL20.glCompileShader(fragmentShader);
-			
-			
-			GL20.glAttachShader(shaderProgram, vertexShader);
-			GL20.glAttachShader(shaderProgram, fragmentShader);
-			
-			GL20.glLinkProgram(shaderProgram);
-			
-			GL20.glDeleteShader(vertexShader);
-			GL20.glDeleteShader(fragmentShader);
-			
-			//C:05 - Buffers - Start
-			vao = GL45.glCreateVertexArrays();
-			vertexBuffer = GL45.glCreateBuffers();
-			GL45.glNamedBufferStorage(vertexBuffer, 3 * VectorSize.Vec4f.getSizeAsBytes(), GL44.GL_DYNAMIC_STORAGE_BIT | GL30.GL_MAP_READ_BIT);
-			GL45.glNamedBufferSubData(vertexBuffer, 0, vertices);
-			
-			GL45.glVertexArrayVertexBuffer(vao, BindingIndex.get(Indeces.VERTIX), vertexBuffer, 0, VectorSize.Vec4f.getSizeAsBytes());
-			GL45.glVertexArrayAttribBinding(vao, AttribIndex.get(Indeces.VERTIX), BindingIndex.get(Indeces.VERTIX));
-			GL45.glVertexArrayAttribFormat(vao, AttribIndex.get(Indeces.VERTIX), 4, GL11.GL_FLOAT, false,  0);
-			GL45.glEnableVertexArrayAttrib(vao, AttribIndex.get(Indeces.VERTIX));
-			//C:05 - Buffers - End
+			UBO140Test ch05_UBO = new UBO140Test();
+//			BufferTest test = new BufferTest();
 			
 			
 //			DEBUG: Check if buffer is actually filled.
@@ -190,25 +150,16 @@ public class Main {
 //			for(int i = 0; i < ptr.asFloatBuffer().remaining(); i++) {
 //				System.out.println(ptr.asFloatBuffer().get(i));
 //			}
-//			GL45.glUnmapNamedBuffer(vertexBuffer);
-			GL30.glBindVertexArray(vao);
 			while ( !glfwWindowShouldClose(window) ) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+				ch05_UBO.render();
+//				test.render();
 				
-				
-				GL20.glUseProgram(shaderProgram);
-				//C:05 - Uniforms - Start
-				GL20.glUniform4fv(AttribIndex.get(Indeces.ATTRIB_TEST), color);
-				//C:05 - Uniforms - End
-				GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 3);
 				
 				glfwSwapBuffers(window); 
 				glfwPollEvents();
 			}
-			
-			GL30.glDeleteVertexArrays(vao);
-			GL20.glDeleteProgram(shaderProgram);
-			
+			ch05_UBO.dispose();
 			debug.free();
 		}
 

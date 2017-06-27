@@ -43,6 +43,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL31;
+import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL43;
 import org.lwjgl.opengl.GL44;
 import org.lwjgl.opengl.GL45;
@@ -51,6 +53,7 @@ import org.lwjgl.system.Callback;
 import org.lwjgl.system.MemoryStack;
 
 import net.noxumbrarum.superbible.chapter05.buffers.BufferTest;
+import net.noxumbrarum.superbible.chapter05.uniforms.UBO140Test;
 import net.noxumbrarum.util.Utils;
 import net.noxumbrarum.util.VectorSize;
 import net.noxumbrarum.util.bindings.AttribIndex;
@@ -138,7 +141,8 @@ public class Main {
 			
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			
-			BufferTest ch05Buffer = new BufferTest();
+			UBO140Test ch05_UBO = new UBO140Test();
+//			BufferTest test = new BufferTest();
 			
 			
 //			DEBUG: Check if buffer is actually filled.
@@ -148,13 +152,14 @@ public class Main {
 //			}
 			while ( !glfwWindowShouldClose(window) ) {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-				ch05Buffer.render();
+				ch05_UBO.render();
+//				test.render();
 				
 				
 				glfwSwapBuffers(window); 
 				glfwPollEvents();
 			}
-			ch05Buffer.dispose();
+			ch05_UBO.dispose();
 			debug.free();
 		}
 
